@@ -1,12 +1,12 @@
 extends Node2D
 
-const powers: Array = [WallPower,SlowPower,DeflectPower]
+const powers: Array = [WallPower,SlowPower,SaucePower]
 var power: Power
 var taken: bool = false
 
 func setup():
 	power = powers[randi()%powers.size()].new() as Power
-	global_position.x = 300
+	global_position.x = 450
 	global_position.y = 1050
 	$TextureRect.texture = power.texture
 

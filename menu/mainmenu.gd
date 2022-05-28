@@ -17,6 +17,10 @@ func _ready():
 	selected_button = buttons[0]
 	selection_arrows = $Selection
 
+func _unhandled_input(event):
+	if event.is_action_pressed("ui_accept"):
+		selected_button.emit_signal("pressed")
+
 func _process(delta):
 	for button in buttons:
 		if button == selected_button:
@@ -36,3 +40,12 @@ func update_selection_arrows():
 	selection_arrows.get_parent().remove_child(selection_arrows)
 	selected_button.add_child(selection_arrows)
 	selection_arrows.rect_position = selected_button.rect_size/2
+
+
+func _on_play_pressed():
+	get_tree().change_scene("res://main.tscn")
+	Game.initialize()
+
+
+func _on_quit_pressed():
+	get_tree().quit(-1)

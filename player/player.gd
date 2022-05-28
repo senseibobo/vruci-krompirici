@@ -2,7 +2,7 @@ extends Sprite
 
 
 export var number: int = 1
-var powers: Array
+var powers: Array = [null,null,null]
 var selected_power_index: int
 var heat: float = 0.0
 var has_potato: bool = false
@@ -12,7 +12,11 @@ var throw_cooldown: float = 0.5
 func _ready():
 	Game.players[number] = self
 	if number == 2:
-		$CanvasLayer/TextureRect.rect_position = Vector2(540,964)
+		for i in 3:
+			var a = get_node("CanvasLayer/Control/PowerSlots/Arrow"+str(i+1))
+			a.texture.atlas = preload("res://menu/arrowkeys.png")
+#		$CanvasLayer/TextureRect.rect_position = Vector2(540,964)
+		$CanvasLayer/Control.rect_scale.x = -1
 
 func _process(delta):
 	if not Game.running: return
@@ -26,46 +30,39 @@ func _process(delta):
 	adjust_size()
 	if Input.is_action_just_pressed("player"+str(number)+"_throw"):
 		throw_potato()
-	if Input.is_action_just_pressed("player"+str(number)+"_special"):
-		use_power()
-	if Input.is_action_just_pressed("player"+str(number)+"_switchright") and powers.size() > 0:
-		selected_power_index = fposmod(selected_power_index+1,powers.size())
-		update_power_texture()
-	if Input.is_action_just_pressed("player"+str(number)+"_switchright") and powers.size() > 0:
-		selected_power_index = fposmod(selected_power_index-1,powers.size())
-		update_power_texture()
-	
+	for i in 3:
+		if Input.is_action_just_pressed("player"+str(number)+"_power"+str(i+1)):
+			use_power(i)
+		
 func adjust_size():
 	$CanvasLayer/Control/ColorRect.color.r = 0.8+heat*2
-	if number == 1:
-		$CanvasLayer/Control/ColorRect.rect_position = Vector2(0,0)
-		$CanvasLayer/Control/ColorRect.rect_size = Vector2(clamp(heat*450,0,450),16)
-	else:
-		$CanvasLayer/Control/ColorRect.rect_position = Vector2(900-clamp(heat*450,0,450),0)
-		$CanvasLayer/Control/ColorRect.rect_size = Vector2(clamp(heat*450,0,450),16)
-	
-
-		
+	$CanvasLayer/Control/ColorRect.rect_position = Vector2(0,0)
+	$CanvasLayer/Control/ColorRect.rect_size = Vector2(clamp(heat*450,0,450),16)
 		
 
 func add_power(power):
-	powers.append(power)
+	var index: int
+	if power is WallPower: index = 0
+	elif power is SlowPower: index = 1
+	elif power is SaucePower: index = 2
+	if powers[index] != null:
+		heat += 0.053
+	else:
+		powers[index] = power
 	selected_power_index = powers.size()-1
 	update_power_texture()
 
-func use_power():
-	if powers.size() == 0: return
-	var power = powers[selected_power_index]
+func use_power(power_index):
+	var power = powers[power_index]
+	if power == null: return
 	power.use(number)
-	powers.remove(selected_power_index)
-	selected_power_index = powers.size()-1
+	powers[power_index] = null
 	update_power_texture()
 
 func update_power_texture():
-	if powers.size() > 0:
-		$CanvasLayer/TextureRect.texture = powers[selected_power_index].texture
-	else:
-		$CanvasLayer/TextureRect.texture = null
+	for index in 3:
+		var t = powers[index].texture if powers[index] != null else null
+		$CanvasLayer/Control/Powers.get_node("PowerSlot"+str(index+1)).texture = t
 
 func switch_power(d: int):
 	if powers.size() == 0: return
@@ -75,6 +72,8 @@ func switch_power(d: int):
 func throw_potato():
 	if not has_potato: return
 	if throw_timer > 0.0: return
+	$AnimationPlayer.stop()
+	$AnimationPlayer.play("bacanje")
 	throw_timer = throw_cooldown
 	Game.potato.dir = 3-number*2
 	Game.potato.last_thrown = self
@@ -83,14 +82,23 @@ func throw_potato():
 
 func catch_potato():
 	has_potato = true
+	Game.potato.drill = false
 	Game.potato.in_posession = number
 	heat += Game.heat_punishment
-	heat += Game.potato.additional_damage
+	if Game.potato.sauce:
+		heat += (1.0-heat)/4
+		Game.potato.sauce = false
 	Game.potato.additional_damage = 0
 	Game.shake_screen(50,0.3,800)
 	$CatchParticles.emitting = true
 
 func death():
+	var gameover = preload("res://menu/gameover.tscn").instance()
+	Game.main_scene.add_child(gameover)
 	Game.shake_screen(100,2.0,900)
 	$DeathParticles.emitting = true
+	Game.player_lives[number] += 1
+	
+func add_life():
+	Game.player_lives[number] += 1
 	

@@ -15,10 +15,11 @@ func _ready():
 	action_timer.connect("timeout",self,"on_action_timer")
 
 func on_action_timer():
-	var r = randi()%2
+	var r = randi()%3
 	match r:
 		0: create_wall()
-		1: create_power()
+		1: create_wall()
+		2: create_power()
 	
 func create_wall():
 	var wall = wall_scene.instance()
