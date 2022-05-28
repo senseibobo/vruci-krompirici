@@ -7,12 +7,12 @@ func setup():
 	global_position = Vector2(a,1070)
 	$ColorRect.margin_top = 0
 	$ColorRect.margin_bottom = height
-
-func _physics_process(delta):
-	global_position -= Vector2(0,Game.fall_speed)*delta
 	
 func _process(delta):
 	Game.potato.check_for_collision(self)
+	global_position -= Vector2(0,Game.fall_speed)*delta
+	if global_position.y < -500:
+		queue_free()
 
 func split(y_position: float):
 	var height = $ColorRect.margin_bottom

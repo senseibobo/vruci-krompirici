@@ -1,4 +1,4 @@
-extends Sprite
+extends Node2D
 
 
 export var number: int = 1
@@ -10,13 +10,17 @@ var throw_timer: float = 0.0
 var throw_cooldown: float = 0.5
 
 func _ready():
-	Game.players[number] = self
+	Game.connect("game_started",self,"on_game_start")
 	if number == 2:
 		for i in 3:
 			var a = get_node("CanvasLayer/Control/PowerSlots/Arrow"+str(i+1))
 			a.texture.atlas = preload("res://menu/arrowkeys.png")
 #		$CanvasLayer/TextureRect.rect_position = Vector2(540,964)
 		$CanvasLayer/Control.rect_scale.x = -1
+	update_life_count()
+
+func on_game_start():
+	Game.players[number] = self
 
 func _process(delta):
 	if not Game.running: return
@@ -97,8 +101,14 @@ func death():
 	Game.main_scene.add_child(gameover)
 	Game.shake_screen(100,2.0,900)
 	$DeathParticles.emitting = true
-	Game.player_lives[number] += 1
+	Game.player_lives[number] -= 1
+	update_life_count()
+
+func update_life_count():
+	for i in 4:
+		get_node("CanvasLayer/Control/Hearts/Heart"+str(i+1)).visible = i < Game.player_lives[number]
 	
 func add_life():
-	Game.player_lives[number] += 1
+	Game.player_lives[number] = min(Game.player_lives[number]+1,4)
+	update_life_count()
 	

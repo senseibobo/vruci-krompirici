@@ -4,7 +4,15 @@ var restartable: bool = false
 
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_accept") and restartable:
-		Game.initialize()
+		var reset_game: bool = false
+		for p in Game.player_lives:
+			if Game.player_lives[p] == 0:
+				reset_game = true
+		
+		if reset_game:
+			Game.initialize()
+		else:
+			Game.start()
 		get_tree().reload_current_scene()
 	
 func _ready():

@@ -20,11 +20,12 @@ func _physics_process(delta):
 	$Particles2D.emitting = in_posession == 0
 	if in_posession == 0:
 		global_position.x += speed*dir*delta
-		if global_position.x > Game.players[2].global_position.x:
+		
+		if 2 in Game.players and global_position.x > Game.players[2].global_position.x:
 			bounced = false
 			global_position.x = Game.players[2].global_position.x - 20
 			Game.players[2].catch_potato()
-		elif global_position.x < Game.players[1].global_position.x:
+		elif 1 in Game.players and global_position.x < Game.players[1].global_position.x:
 			global_position.x = Game.players[1].global_position.x+20
 			bounced = false
 			Game.players[1].catch_potato()

@@ -12,6 +12,7 @@ func setup():
 
 func _process(delta):
 	global_position.y -= Game.fall_speed*delta
+	if global_position.y < -500: queue_free()
 	var ppos = Game.potato.global_position
 	var pos = global_position
 	var distance = sqrt(pow(ppos.x-pos.x,2)+pow(ppos.y-pos.y,2)/10)
