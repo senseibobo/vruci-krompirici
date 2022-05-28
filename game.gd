@@ -17,7 +17,16 @@ var shake_frequency: float
 var shake_time: float
 var shake_noise: OpenSimplexNoise = OpenSimplexNoise.new()
 
+var time: float = 0.0
+const speedup_time: float = 10.0
+
+func speedup():
+	heat_punishment += 0.015
+	
 func _process(delta):
+	time += delta
+	if fmod(time - delta, speedup_time) > fmod(time, speedup_time):
+		speedup()
 	if shake_duration > 0:
 		shake_time += shake_frequency*delta
 		shake_left = move_toward(shake_left,0,delta)

@@ -36,12 +36,16 @@ func _process(delta):
 		update_power_texture()
 	
 func adjust_size():
+	$CanvasLayer/Control/ColorRect.color.r = 0.8+heat*2
 	if number == 1:
 		$CanvasLayer/Control/ColorRect.rect_position = Vector2(0,0)
-		$CanvasLayer/Control/ColorRect.rect_size = Vector2(clamp(heat*300,0,300),16)
+		$CanvasLayer/Control/ColorRect.rect_size = Vector2(clamp(heat*450,0,450),16)
 	else:
-		$CanvasLayer/Control/ColorRect.rect_position = Vector2(600-clamp(heat*300,0,300),0)
-		$CanvasLayer/Control/ColorRect.rect_size = Vector2(clamp(heat*300,0,300),16)
+		$CanvasLayer/Control/ColorRect.rect_position = Vector2(900-clamp(heat*450,0,450),0)
+		$CanvasLayer/Control/ColorRect.rect_size = Vector2(clamp(heat*450,0,450),16)
+	
+
+		
 		
 
 func add_power(power):
@@ -81,6 +85,8 @@ func catch_potato():
 	has_potato = true
 	Game.potato.in_posession = number
 	heat += Game.heat_punishment
+	heat += Game.potato.additional_damage
+	Game.potato.additional_damage = 0
 	Game.shake_screen(50,0.3,800)
 	$CatchParticles.emitting = true
 

@@ -1,6 +1,6 @@
 extends Node2D
 
-const powers: Array = [WallPower,SlowPower]
+const powers: Array = [WallPower,SlowPower,DeflectPower]
 var power: Power
 var taken: bool = false
 

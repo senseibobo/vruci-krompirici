@@ -13,9 +13,9 @@ power_scene = ExtResource( 6 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_left = -174.0
-margin_top = -297.0
+margin_top = -26.0
 margin_right = 774.0
-margin_bottom = 1321.0
+margin_bottom = 1050.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="Player1" parent="." instance=ExtResource( 2 )]
@@ -29,6 +29,7 @@ number = 2
 position = Vector2( 300, 512 )
 
 [node name="Wall" parent="." instance=ExtResource( 5 )]
+modulate = Color( 2, 2, 2, 1 )
 
 [node name="Line2D" type="Line2D" parent="."]
 points = PoolVector2Array( 300, 0, 300, 1024 )

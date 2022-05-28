@@ -6,6 +6,7 @@ var in_posession: int = 0
 var dir: int = 1
 var bounced: bool = false
 var last_thrown
+var additional_damage: float = 0.0
 
 func _ready():
 	Game.potato = self

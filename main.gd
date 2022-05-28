@@ -4,6 +4,8 @@ var action_timer: Timer
 export var wall_scene: PackedScene
 export var power_scene: PackedScene
 
+	
+
 func _ready():
 	Game.camera = $Camera2D
 	Game.main_scene = self
@@ -22,6 +24,7 @@ func create_wall():
 	var wall = wall_scene.instance()
 	add_child(wall)
 	wall.setup()
+	return wall
 	
 func create_power():
 	var power = power_scene.instance()
