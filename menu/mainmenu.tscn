@@ -38,23 +38,24 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="CenterContainer"]
-margin_left = 712.0
-margin_top = 261.0
-margin_right = 1108.0
-margin_bottom = 763.0
+margin_left = 718.0
+margin_top = 232.0
+margin_right = 1102.0
+margin_bottom = 791.0
 custom_constants/separation = 260
 
 [node name="Label" type="Label" parent="CenterContainer/VBoxContainer2"]
-margin_right = 396.0
-margin_bottom = 54.0
-text = "Igrica nasa lepa"
+margin_right = 384.0
+margin_bottom = 111.0
+text = "Vruci krompirici
+hero edition"
 align = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer2"]
-margin_left = 131.0
-margin_top = 314.0
-margin_right = 265.0
-margin_bottom = 502.0
+margin_left = 125.0
+margin_top = 371.0
+margin_right = 259.0
+margin_bottom = 559.0
 size_flags_horizontal = 4
 custom_constants/separation = 32
 
