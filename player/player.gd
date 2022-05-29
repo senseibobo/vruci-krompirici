@@ -8,15 +8,15 @@ var heat: float = 0.0
 var has_potato: bool = false
 var throw_timer: float = 0.0
 var throw_cooldown: float = 0.5
+var flash: float = 0.0
 
 func _ready():
 	Game.connect("game_started",self,"on_game_start")
 	if number == 2:
-		for i in 3:
-			var a = get_node("CanvasLayer/Control/PowerSlots/Arrow"+str(i+1))
-			a.texture.atlas = preload("res://menu/arrowkeys.png")
-#		$CanvasLayer/TextureRect.rect_position = Vector2(540,964)
 		$CanvasLayer/Control.rect_scale.x = -1
+		$CanvasLayer/Control/PowerSlots/Key1.texture = preload("res://menu/Button_Arrow_Left.png")
+		$CanvasLayer/Control/PowerSlots/Key2.texture = preload("res://menu/Button_Arrow_Up.png")
+		$CanvasLayer/Control/PowerSlots/Key3.texture = preload("res://menu/Button_Arrow_Right.png")
 	update_life_count()
 
 func on_game_start():
@@ -24,13 +24,21 @@ func on_game_start():
 
 func _process(delta):
 	if not Game.running: return
+	flash = move_toward(flash,0,delta*4.0)
+	$Sprite.scale.x = 0.08+sin(Game.time*5.0+number)/220.0
+	$Sprite.position.x = sin(Game.time*4.0+number)*10.0
+	$Sprite.scale.y = 0.08+cos(Game.time*5.0+number)/220.0
 	throw_timer -= delta
 	if has_potato:
 		heat = clamp(heat + Game.heat_buildup/100.0*delta,0,1)
 		if heat >= 1:
 			Game.finish_game(3-number)
+		$CanvasLayer/Control/Heating.modulate = Color.crimson
+		$CanvasLayer/Control/Cooling.modulate = Color.gray
 	else:
-		heat = clamp(heat - Game.heat_buildup/100.0*delta,0,1)
+		$CanvasLayer/Control/Cooling.modulate = Color.aqua
+		$CanvasLayer/Control/Heating.modulate = Color.gray
+		heat = clamp(heat - Game.heat_cooldown/100.0*delta,0,1)
 	adjust_size()
 	if Input.is_action_just_pressed("player"+str(number)+"_throw"):
 		throw_potato()
@@ -39,9 +47,9 @@ func _process(delta):
 			use_power(i)
 		
 func adjust_size():
-	$CanvasLayer/Control/ColorRect.color.r = 0.8+heat*2
+	$CanvasLayer/Control/ColorRect.color = Color(0.8+heat*2,flash,flash)
 	$CanvasLayer/Control/ColorRect.rect_position = Vector2(0,0)
-	$CanvasLayer/Control/ColorRect.rect_size = Vector2(clamp(heat*450,0,450),16)
+	$CanvasLayer/Control/ColorRect.rect_size = Vector2(clamp(heat*450,0,450),32)
 		
 
 func add_power(power):
@@ -66,7 +74,7 @@ func use_power(power_index):
 func update_power_texture():
 	for index in 3:
 		var t = powers[index].texture if powers[index] != null else null
-		$CanvasLayer/Control/Powers.get_node("PowerSlot"+str(index+1)).texture = t
+		$CanvasLayer/Control/Powers.get_node("Power"+str(index+1)).texture = t
 
 func switch_power(d: int):
 	if powers.size() == 0: return
@@ -76,33 +84,55 @@ func switch_power(d: int):
 func throw_potato():
 	if not has_potato: return
 	if throw_timer > 0.0: return
+	Game.play_sound(preload("res://sfx/throw.wav"))
 	$AnimationPlayer.stop()
 	$AnimationPlayer.play("bacanje")
 	throw_timer = throw_cooldown
 	Game.potato.dir = 3-number*2
 	Game.potato.last_thrown = self
 	Game.potato.in_posession = 0
+	if not Game.potato.sauce:
+		Game.potato.set_strength(Game.potato.default_strength)
 	has_potato = false
 
 func catch_potato():
+	Game.play_sound(preload("res://sfx/hit.wav"))
 	has_potato = true
 	Game.potato.drill = false
 	Game.potato.in_posession = number
-	heat += Game.heat_punishment
-	if Game.potato.sauce:
-		heat += (1.0-heat)/4
-		Game.potato.sauce = false
 	Game.potato.additional_damage = 0
-	Game.shake_screen(50,0.3,800)
+	if Game.potato.sauce:
+		heat += 0.1+(1.0-heat)/5
+		Game.potato.sauce = false
+		Game.shake_screen(60,0.5,900)
+	else:
+		Game.shake_screen(50,0.3,800)
+	heat += Game.heat_punishment
+	flash = 1.1
 	$CatchParticles.emitting = true
 
+const death_textures = {
+	1: preload("res://player/death_player1.png"),
+	2: preload("res://player/death_player2.png")
+}
+
 func death():
-	var gameover = preload("res://menu/gameover.tscn").instance()
-	Game.main_scene.add_child(gameover)
-	Game.shake_screen(100,2.0,900)
-	$DeathParticles.emitting = true
 	Game.player_lives[number] -= 1
 	update_life_count()
+	Game.play_sound(preload("res://sfx/smrt.wav"))
+	Game.current_round += 1
+	Game.last_player_win = 3-number
+	if Game.player_lives[number] == 0:
+		var gameover = preload("res://menu/gameover.tscn").instance()
+		Game.main_scene.add_child(gameover)
+	else:
+		var roundover = preload("res://menu/roundover.tscn").instance()
+		Game.main_scene.add_child(roundover)
+	Game.shake_screen(100,2.0,900)
+	$DeathParticles.emitting = true
+	Game.potato.queue_free()
+	yield(get_tree().create_timer(0.3,false),"timeout")
+	$Sprite.texture = death_textures[number]
 
 func update_life_count():
 	for i in 4:

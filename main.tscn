@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://potato/potato.tscn" type="PackedScene" id=1]
 [ext_resource path="res://player/player.tscn" type="PackedScene" id=2]
@@ -7,6 +7,55 @@
 [ext_resource path="res://wall/wall.tscn" type="PackedScene" id=5]
 [ext_resource path="res://power/power.tscn" type="PackedScene" id=6]
 [ext_resource path="res://BG@2x.png" type="Texture" id=8]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform sampler2D noise1;
+uniform sampler2D noise2;
+uniform sampler2D gradient;
+const float pixelization = 25.0;
+uniform float c = 2.0;
+
+vec4 contrast(vec4 a) {
+	return (a-0.5)*c+0.5;
+}
+
+void fragment() {
+	vec2 v = round(UV*pixelization)/pixelization;
+	vec2 n1 = textureLod(noise1,v+TIME/3.0,4.0).rg;
+	vec2 n2 = textureLod(noise2,v-TIME/3.0,4.0).rg;
+	COLOR = clamp(contrast(texture(gradient,n1*n2)),vec4(0.0,0.0,0.0,1.0),vec4(1.0));
+	COLOR.rgb *= clamp(c,0.0,1.0);
+	COLOR.a = 1.0;
+}"
+
+[sub_resource type="Gradient" id=5]
+offsets = PoolRealArray( 0.0726644, 0.228374, 0.32872, 0.401384 )
+colors = PoolColorArray( 1, 0.943359, 0, 1, 1, 0.525223, 0.0078125, 1, 0.631836, 0, 0, 1, 0, 0, 0, 1 )
+
+[sub_resource type="GradientTexture" id=6]
+gradient = SubResource( 5 )
+
+[sub_resource type="OpenSimplexNoise" id=3]
+
+[sub_resource type="NoiseTexture" id=4]
+seamless = true
+noise = SubResource( 3 )
+
+[sub_resource type="OpenSimplexNoise" id=7]
+seed = 2
+
+[sub_resource type="NoiseTexture" id=8]
+seamless = true
+noise = SubResource( 7 )
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/c = 0.2
+shader_param/noise1 = SubResource( 4 )
+shader_param/noise2 = SubResource( 8 )
+shader_param/gradient = SubResource( 6 )
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 3 )
@@ -23,14 +72,6 @@ texture = ExtResource( 8 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 3840, 17280 )
 
-[node name="ColorRect" type="ColorRect" parent="."]
-visible = false
-margin_left = -22.0
-margin_top = -26.0
-margin_right = 926.0
-margin_bottom = 1050.0
-color = Color( 0, 0, 0, 1 )
-
 [node name="Player1" parent="." instance=ExtResource( 2 )]
 position = Vector2( 200, 512 )
 
@@ -44,15 +85,43 @@ texture = ExtResource( 4 )
 [node name="Potato" parent="." instance=ExtResource( 1 )]
 position = Vector2( 452, 512 )
 
-[node name="Line2D" type="Line2D" parent="."]
-position = Vector2( 152, 0 )
-points = PoolVector2Array( 300, 0, 300, 1024 )
-width = 2.0
-default_color = Color( 0.537255, 0.537255, 0.537255, 1 )
-
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 452, 512 )
 current = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource( 2 )
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -450.0
+margin_right = -450.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer"]
+material = SubResource( 2 )
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 450.0
+margin_right = 450.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="Control" type="Control" parent="CanvasLayer2"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Line2D" type="Line2D" parent="CanvasLayer2/Control"]
+z_index = 54
+points = PoolVector2Array( 0, 0, 0, 1024 )
+width = 2.0
+default_color = Color( 0.537255, 0.537255, 0.537255, 1 )
 
 [editable path="Player1"]
 [editable path="Player2"]

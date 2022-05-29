@@ -9,16 +9,29 @@ var last_thrown
 var additional_damage: float = 0.0
 var drill: bool = false
 var sauce: bool = false
+var default_strength: int = 50
+var old_position: Vector2
 
 func set_posession(posession: int):
 	in_posession = posession
 
 func _ready():
+	dir = Game.current_round%2*2-1
 	Game.potato = self
+
+func speedup(a: float):
+	$Trail.default_color = Color(2.0,1.43,0.58)
+	speed*=a
+	
+func slowdown(a: float):
+	$Trail.default_color = Color.aqua*2.0
+	speed/=a
 
 func _physics_process(delta):
 	$Particles2D.emitting = in_posession == 0
+	old_position = global_position
 	if in_posession == 0:
+		rotation += dir*delta*20
 		global_position.x += speed*dir*delta
 		
 		if 2 in Game.players and global_position.x > Game.players[2].global_position.x:
@@ -31,8 +44,8 @@ func _physics_process(delta):
 			Game.players[1].catch_potato()
 
 func check_for_collision(wall):
-	var collider_rect: Rect2 = wall.get_node("ColorRect").get_global_rect()
-	if collider_rect.has_point(global_position):
+	var collider_rect: Rect2 = wall.get_node("TextureRect").get_global_rect()
+	if collider_rect.has_point(global_position) or collider_rect.has_point(old_position):
 		if drill:
 			wall.split(global_position.y)
 		elif not bounced:
@@ -41,3 +54,11 @@ func check_for_collision(wall):
 func bounce():
 	bounced = true
 	dir = -dir
+	
+func set_strength(strength: int):
+	var s = float(strength)
+	var ds = float(default_strength)
+	$Particles2D.modulate = Color(s/ds,ds/s,ds/s)
+	print(strength)
+	if $Particles2D.amount != strength:
+		$Particles2D.amount = strength

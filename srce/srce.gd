@@ -10,7 +10,7 @@ func _process(delta):
 	if global_position.y < -100:
 		queue_free()
 	if global_position.y <= 1024:
-		$CanvasLayer/Sprite.visible = false
+		$CanvasLayer/TextureRect.visible = false
 	check_for_collision()
 
 func check_for_collision():
