@@ -1,6 +1,12 @@
 extends Node2D
 
 
+const faces = [
+	preload("res://player/Face_1@2x.png"),
+	preload("res://player/Face_2@2x.png"),
+	preload("res://player/Face_3@2x.png")
+]
+
 export var number: int = 1
 var powers: Array = [null,null,null]
 var selected_power_index: int
@@ -22,6 +28,8 @@ func _ready():
 func on_game_start():
 	Game.players[number] = self
 
+var old_heat: float 
+
 func _process(delta):
 	if not Game.running: return
 	flash = move_toward(flash,0,delta*4.0)
@@ -39,13 +47,25 @@ func _process(delta):
 		$CanvasLayer/Control/Cooling.modulate = Color.aqua
 		$CanvasLayer/Control/Heating.modulate = Color.gray
 		heat = clamp(heat - Game.heat_cooldown/100.0*delta,0,1)
+	$Sprite/Face.texture = faces[min(int(heat*3.0),2)]
+	$Sprite.self_modulate = Color.white.linear_interpolate(Color.red,int(heat*3.0)/3.0)
+	if old_heat < 0.66 and heat >= 0.66:
+		$Sprite/Smoke.emitting = true
+		$Sprite/Smoke2.emitting = true
+	elif heat < 0.66:
+		$Sprite/Smoke.emitting = false
+		$Sprite/Smoke2.emitting = false
 	adjust_size()
 	if Input.is_action_just_pressed("player"+str(number)+"_throw"):
 		throw_potato()
 	for i in 3:
 		if Input.is_action_just_pressed("player"+str(number)+"_power"+str(i+1)):
 			use_power(i)
-		
+	old_heat = heat
+
+func f(x):
+	return max(fmod(-x,2)-1,0)
+
 func adjust_size():
 	$CanvasLayer/Control/ColorRect.color = Color(0.8+heat*2,flash,flash)
 	$CanvasLayer/Control/ColorRect.rect_position = Vector2(0,0)
@@ -132,6 +152,10 @@ func death():
 	$DeathParticles.emitting = true
 	Game.potato.queue_free()
 	yield(get_tree().create_timer(0.3,false),"timeout")
+	$Sprite/Face.queue_free()
+	$Sprite/Smoke.emitting = false
+	$Sprite/Smoke2.emitting = false
+	$Sprite.self_modulate = Color.white
 	$Sprite.texture = death_textures[number]
 
 func update_life_count():

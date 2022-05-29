@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://menu/maintheme.tres" type="Theme" id=1]
 [ext_resource path="res://player/Potato@2x.png" type="Texture" id=2]
@@ -6,6 +6,10 @@
 [ext_resource path="res://menu/selectarrow.png" type="Texture" id=4]
 [ext_resource path="res://player/Yam@2x.png" type="Texture" id=5]
 [ext_resource path="res://menu/skrinsot.png" type="Texture" id=6]
+[ext_resource path="res://wall/Ctrl_Left@2x.png" type="Texture" id=7]
+[ext_resource path="res://wall/Ctrl_Right.png" type="Texture" id=8]
+[ext_resource path="res://player/Face_1@2x.png" type="Texture" id=9]
+[ext_resource path="res://player/Face_2@2x.png" type="Texture" id=10]
 
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
@@ -19,6 +23,7 @@ anchor_bottom = 1.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="TextureRect" type="TextureRect" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -910.0
@@ -103,11 +108,30 @@ scale = Vector2( 0.04, 0.04 )
 z_index = 880
 texture = ExtResource( 2 )
 
+[node name="Face12x" type="Sprite" parent="CanvasLayer/Control/DefaultPotato2x"]
+position = Vector2( -99.999, -875 )
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 9 )
+
 [node name="Yam2x" type="Sprite" parent="CanvasLayer/Control"]
 position = Vector2( 248, 516 )
 scale = Vector2( 0.04, 0.04 )
 z_index = 880
 texture = ExtResource( 5 )
+
+[node name="Face12x2" type="Sprite" parent="CanvasLayer/Control/Yam2x"]
+position = Vector2( -225, -875 )
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 10 )
+
+[node name="CtrlLeft2x" type="Sprite" parent="CanvasLayer/Control"]
+position = Vector2( -657, 532 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 7 )
+
+[node name="CtrlRight2x" type="Sprite" parent="CanvasLayer/Control"]
+position = Vector2( 673, 541 )
+texture = ExtResource( 8 )
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer2/VBoxContainer/Button" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer2/VBoxContainer/Button2" to="." method="_on_quit_pressed"]

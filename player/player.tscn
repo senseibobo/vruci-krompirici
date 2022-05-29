@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://player/player.gd" type="Script" id=1]
 [ext_resource path="res://power/wallpower.png" type="Texture" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://menu/fire.png" type="Texture" id=9]
 [ext_resource path="res://menu/Snow.png" type="Texture" id=10]
 [ext_resource path="res://player/death.png" type="Texture" id=11]
+[ext_resource path="res://player/Face_1@2x.png" type="Texture" id=12]
 
 [sub_resource type="Environment" id=7]
 background_mode = 4
@@ -43,40 +44,6 @@ angle_random = 1.0
 scale = 5.36
 scale_curve = SubResource( 2 )
 
-[sub_resource type="CanvasItemMaterial" id=10]
-particles_animation = true
-particles_anim_h_frames = 3
-particles_anim_v_frames = 1
-particles_anim_loop = false
-
-[sub_resource type="Gradient" id=11]
-colors = PoolColorArray( 0.335938, 0.335938, 0.335938, 1, 0, 0, 0, 1 )
-
-[sub_resource type="GradientTexture" id=12]
-gradient = SubResource( 11 )
-
-[sub_resource type="Curve" id=4]
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=5]
-curve = SubResource( 4 )
-
-[sub_resource type="ParticlesMaterial" id=6]
-emission_shape = 1
-emission_sphere_radius = 151.55
-flag_disable_z = true
-spread = 180.0
-gravity = Vector3( 0, -500, 0 )
-initial_velocity = 344.69
-initial_velocity_random = 0.43
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-angle = 720.0
-angle_random = 1.0
-scale = 13.2
-scale_curve = SubResource( 5 )
-color_ramp = SubResource( 12 )
-
 [sub_resource type="Animation" id=8]
 length = 0.001
 tracks/0/type = "value"
@@ -104,6 +71,71 @@ tracks/0/keys = {
 "points": PoolRealArray( 0, -0.25, 0, 0, 78.6728, 84.1728, -0.1, -9, 0.1, -44, 0, -0.1, 6, 0.25, 0 ),
 "times": PoolRealArray( 0, 0.1, 0.6 )
 }
+
+[sub_resource type="CanvasItemMaterial" id=10]
+particles_animation = true
+particles_anim_h_frames = 3
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id=11]
+colors = PoolColorArray( 0.335938, 0.335938, 0.335938, 1, 0, 0, 0, 1 )
+
+[sub_resource type="GradientTexture" id=12]
+gradient = SubResource( 11 )
+
+[sub_resource type="Curve" id=4]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=5]
+curve = SubResource( 4 )
+
+[sub_resource type="ParticlesMaterial" id=13]
+flag_disable_z = true
+spread = 0.0
+gravity = Vector3( 0, -1200, 0 )
+initial_velocity = 823.48
+initial_velocity_random = 0.43
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 1200.0
+angle = 720.0
+angle_random = 1.0
+scale = 4.46
+scale_curve = SubResource( 5 )
+color_ramp = SubResource( 12 )
+
+[sub_resource type="ParticlesMaterial" id=14]
+flag_disable_z = true
+direction = Vector3( -1, 0, 0 )
+spread = 0.0
+gravity = Vector3( 0, -1200, 0 )
+initial_velocity = 823.48
+initial_velocity_random = 0.43
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 1200.0
+angle = 720.0
+angle_random = 1.0
+scale = 4.46
+scale_curve = SubResource( 5 )
+color_ramp = SubResource( 12 )
+
+[sub_resource type="ParticlesMaterial" id=6]
+emission_shape = 1
+emission_sphere_radius = 151.55
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, -500, 0 )
+initial_velocity = 344.69
+initial_velocity_random = 0.43
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle = 720.0
+angle_random = 1.0
+scale = 13.2
+scale_curve = SubResource( 5 )
+color_ramp = SubResource( 12 )
 
 [node name="Player" type="Node2D"]
 scale = Vector2( 0.5, 0.5 )
@@ -286,15 +318,6 @@ explosiveness = 0.88
 process_material = SubResource( 3 )
 texture = ExtResource( 2 )
 
-[node name="DeathParticles" type="Particles2D" parent="."]
-material = SubResource( 10 )
-emitting = false
-amount = 239
-one_shot = true
-explosiveness = 0.51
-process_material = SubResource( 6 )
-texture = ExtResource( 11 )
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 8 )
 anims/bacanje = SubResource( 9 )
@@ -303,3 +326,46 @@ anims/bacanje = SubResource( 9 )
 show_behind_parent = true
 scale = Vector2( 0.08, 0.08 )
 texture = ExtResource( 4 )
+
+[node name="Smoke" type="Particles2D" parent="Sprite"]
+material = SubResource( 10 )
+position = Vector2( 800, -800 )
+scale = Vector2( 12.5, 12.5 )
+z_index = 1000
+emitting = false
+amount = 19
+lifetime = 0.55
+draw_order = 1
+process_material = SubResource( 13 )
+texture = ExtResource( 11 )
+
+[node name="Smoke2" type="Particles2D" parent="Sprite"]
+material = SubResource( 10 )
+position = Vector2( -1200, -800 )
+scale = Vector2( 12.5, 12.5 )
+z_index = 1000
+emitting = false
+amount = 19
+lifetime = 0.55
+draw_order = 1
+process_material = SubResource( 14 )
+texture = ExtResource( 11 )
+
+[node name="Face" type="TextureRect" parent="Sprite"]
+margin_left = -700.0
+margin_top = -1375.0
+margin_right = -618.0
+margin_bottom = -1293.0
+rect_scale = Vector2( 12.5, 12.5 )
+texture = ExtResource( 12 )
+expand = true
+stretch_mode = 6
+
+[node name="DeathParticles" type="Particles2D" parent="."]
+material = SubResource( 10 )
+emitting = false
+amount = 239
+one_shot = true
+explosiveness = 0.51
+process_material = SubResource( 6 )
+texture = ExtResource( 11 )

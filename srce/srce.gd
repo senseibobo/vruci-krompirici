@@ -14,6 +14,7 @@ func _process(delta):
 	check_for_collision()
 
 func check_for_collision():
+	if not is_instance_valid(Game.potato): return
 	var ppos = Game.potato.global_position
 	var pos = global_position
 	var distance = sqrt(pow(ppos.x-pos.x,2)+pow(ppos.y-pos.y,2)/10)

@@ -59,6 +59,5 @@ func set_strength(strength: int):
 	var s = float(strength)
 	var ds = float(default_strength)
 	$Particles2D.modulate = Color(s/ds,ds/s,ds/s)
-	print(strength)
 	if $Particles2D.amount != strength:
 		$Particles2D.amount = strength

@@ -119,7 +119,7 @@ func screenshot():
 
 func transition():
 	var cl = CanvasLayer.new()
-	cl.layer = 100
+	cl.layer = 126
 	var cr = ColorRect.new()
 	add_child(cl)
 	cl.add_child(cr)

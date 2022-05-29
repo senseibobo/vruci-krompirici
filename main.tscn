@@ -68,6 +68,7 @@ power_scene = ExtResource( 6 )
 [node name="Bg" type="Sprite" parent="."]
 position = Vector2( 454, 2032 )
 scale = Vector2( 0.243287, 0.243287 )
+z_index = -5
 texture = ExtResource( 8 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 3840, 17280 )
@@ -79,7 +80,7 @@ position = Vector2( 200, 512 )
 position = Vector2( 700, 512 )
 number = 2
 
-[node name="Sprite" parent="Player2" index="4"]
+[node name="Sprite" parent="Player2" index="3"]
 texture = ExtResource( 4 )
 
 [node name="Potato" parent="." instance=ExtResource( 1 )]
@@ -120,8 +121,8 @@ margin_bottom = 40.0
 [node name="Line2D" type="Line2D" parent="CanvasLayer2/Control"]
 z_index = 54
 points = PoolVector2Array( 0, 0, 0, 1024 )
-width = 2.0
-default_color = Color( 0.537255, 0.537255, 0.537255, 1 )
+width = 1.5
+default_color = Color( 0.486275, 0.486275, 0.486275, 0.203922 )
 
 [editable path="Player1"]
 [editable path="Player2"]
