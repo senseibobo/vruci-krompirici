@@ -79,6 +79,8 @@ func _ready():
 	OS.set_window_maximized(true)
 
 func _process(delta):
+	if Input.is_action_just_pressed("fullscreen"):
+		OS.window_fullscreen = not OS.window_fullscreen
 	if Input.is_action_just_pressed("screenshot"):
 		screenshot()
 	time += delta

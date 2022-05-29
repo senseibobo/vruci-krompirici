@@ -10,9 +10,6 @@ func setup():
 	global_position.y = 1050
 	$TextureRect.texture = power.texture
 
-func _unhandled_input(event):
-	if event.is_action_pressed("fullscreen"):
-		OS.window_fullscreen = not OS.window_fullscreen
 
 func _process(delta):
 	global_position.y -= Game.fall_speed*delta
