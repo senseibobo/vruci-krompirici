@@ -3,24 +3,26 @@ extends Node2D
 var action_timer: Timer
 export var wall_scene: PackedScene
 export var power_scene: PackedScene
+export(NodePath) onready var shader_rect = get_node(shader_rect)
+export(NodePath) onready var background = get_node(background)
 var time: float = 0.0
 var bg_y: float = 0.0
 	
 func _process(delta):
 	time += delta
-	$CanvasLayer/ColorRect.material.set_shader_param("c",time/40.0)
+	shader_rect.material.set_shader_param("c",time/40.0)
 	bg_y -= Game.fall_speed*delta*1.2
 	if bg_y < 0.243*7680:
 		bg_y += 1050
-	$Bg.global_position.y = bg_y-7680*0.243
+	background.global_position.y = bg_y-7680*0.243
 	if time >= 10:
 		if fmod(time-delta,2.5) > fmod(time,2.5):
-			if randi()%100 <= 9:
+			if randi()%100 <= 8:
 				if randi()%4 > 0 and not Game.deathmatch:
 					var srce = preload("res://srce/srce.tscn").instance()
 					add_child(srce)
 					srce.setup()
-				else:
+				elif not Game.lights_out:
 					var lightsout = preload("res://lightsout/lightsout.tscn").instance()
 					add_child(lightsout)
 				

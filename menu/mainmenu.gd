@@ -5,21 +5,17 @@ onready var buttons = [
 	$CenterContainer/VBoxContainer2/VBoxContainer/Button2,
 ]
 
-var tween: Tween
-var selected_button: Button
+onready var selected_button: Button = buttons[0]
+onready var selection_arrows: Control = $Selection
 var currently_selected: int = 0
-var selection_arrows: Control
 var button_scale: float = 1.0
-
-func _ready():
-	tween = Tween.new()
-	add_child(tween)
-	selected_button = buttons[0]
-	selection_arrows = $Selection
 
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_accept"):
 		selected_button.emit_signal("pressed")
+
+func _ready():
+	update_selection_arrows()
 
 func _process(delta):
 	for button in buttons:

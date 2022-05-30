@@ -6,7 +6,7 @@ signal game_over
 var players = {}
 var player_lives = {1: 3, 2: 3}
 var potato
-var fall_speed: float
+var fall_speed: float setget ,get_fall_speed
 var fall_acceleration: float
 var heat_buildup: float 
 var heat_cooldown: float
@@ -24,11 +24,16 @@ var shake_noise: OpenSimplexNoise = OpenSimplexNoise.new()
 var current_round: int
 var last_player_win: int
 var deathmatch: bool
+var lights_out: bool
+var fall_speed_multiplier: float = 1.0
 
 var time: float
 const speedup_time: float = 10.0
 
 var music_player: AudioStreamPlayer
+
+func get_fall_speed():
+	return fall_speed * fall_speed_multiplier
 
 func initialize():
 	if is_instance_valid(music_player): music_player.queue_free()
@@ -44,13 +49,15 @@ func initialize():
 
 func start():
 	randomize()
-	if is_instance_valid(main_scene):	
-		main_scene.time = 0		
+	if is_instance_valid(main_scene):
+		main_scene.time = 0
 	time = 0.0
 	players = {}
 	running = true
 	fall_speed = 500
 	fall_acceleration = 20
+	fall_speed_multiplier = 1.0
+	lights_out = false
 	if deathmatch:
 		heat_buildup = 3.0
 		heat_cooldown = 40.0
@@ -91,6 +98,7 @@ func _process(delta):
 		camera.offset.x = shake_noise.get_noise_2d(shake_time,0)*shake_amount*a
 		camera.offset.y = shake_noise.get_noise_2d(shake_time,100)*shake_amount*a
 	if not running: return
+	fall_speed_multiplier = move_toward(fall_speed_multiplier,1.0,0.6*delta)
 	fall_speed += fall_acceleration*delta
 	if fmod(time - delta, speedup_time) > fmod(time, speedup_time):
 		speedup()
@@ -121,7 +129,7 @@ func screenshot():
 
 func transition():
 	var cl = CanvasLayer.new()
-	cl.layer = 126
+	cl.layer = 125
 	var cr = ColorRect.new()
 	add_child(cl)
 	cl.add_child(cr)
@@ -131,13 +139,9 @@ func transition():
 	cr.anchor_bottom = 1.1
 	cr.margin_left = -100
 	cr.color = Color(0,0,0,0)
-	var tween = Tween.new()
-	add_child(tween)
-	tween.interpolate_property(cr,"color",cr.color,Color.black,0.3)
-	tween.start()
-	yield(tween,"tween_all_completed")
-	tween.connect("tween_all_completed",tween,"queue_free")
-	tween.connect("tween_all_completed",cl,"queue_free")
-	tween.interpolate_property(cr,"color",Color(0,0,0,1),Color(0,0,0,0),0.1)
-	tween.start()
+	var tween = create_tween()
+	tween.tween_property(cr,"color",Color.black,0.3)
+	tween.tween_property(cr,"color",Color(0,0,0,0),0.3)
+	tween.tween_callback(cl,"queue_free")
+	yield(get_tree().create_timer(0.3,false),"timeout")
 	return

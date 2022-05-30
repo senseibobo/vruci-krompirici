@@ -152,13 +152,13 @@ margin_left = -450.0
 margin_right = 450.0
 rect_pivot_offset = Vector2( 450, 0 )
 
-[node name="ColorRect3" type="ColorRect" parent="CanvasLayer/Control"]
+[node name="HeatBackground" type="ColorRect" parent="CanvasLayer/Control"]
 anchor_right = 0.5
 margin_right = 6.0
 margin_bottom = 38.0
 color = Color( 0, 0, 0, 1 )
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control"]
+[node name="HeatBar" type="ColorRect" parent="CanvasLayer/Control"]
 anchor_right = 0.5
 margin_bottom = 32.0
 color = Color( 13.77, 0, 0, 1 )
@@ -276,13 +276,13 @@ expand = true
 
 [node name="ColorRect2" type="ColorRect" parent="CanvasLayer/Control"]
 anchor_bottom = 1.0
-margin_left = -120.0
+margin_left = -105.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="Hearts" type="GridContainer" parent="CanvasLayer/Control"]
-margin_left = -97.0
+margin_left = -89.0
 margin_top = 17.0
-margin_right = 207.0
+margin_right = 215.0
 margin_bottom = 214.0
 
 [node name="Heart1" type="TextureRect" parent="CanvasLayer/Control/Hearts"]

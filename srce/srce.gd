@@ -1,5 +1,6 @@
 extends Node2D
 
+onready var indicator = $CanvasLayer/TextureRect
 
 func setup():
 	global_position = Vector2(450,2500)
@@ -10,7 +11,7 @@ func _process(delta):
 	if global_position.y < -100:
 		queue_free()
 	if global_position.y <= 1024:
-		$CanvasLayer/TextureRect.visible = false
+		indicator.visible = false
 	check_for_collision()
 
 func check_for_collision():

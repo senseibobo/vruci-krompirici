@@ -13,6 +13,10 @@ font_data = ExtResource( 2 )
 
 [node name="GameOver" type="CanvasLayer"]
 script = ExtResource( 3 )
+title_label = NodePath("CenterContainer/VBoxContainer/Label")
+restart_label = NodePath("CenterContainer/VBoxContainer/Label2")
+quit_label = NodePath("CenterContainer/VBoxContainer/Label3")
+cc = NodePath("CenterContainer")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchor_right = 1.0

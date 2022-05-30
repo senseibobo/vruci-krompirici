@@ -7,13 +7,9 @@ func _init():
 
 func use(player_number: int):
 	var wall = Game.main_scene.create_wall(2)
-	var tween = Tween.new()
-	Game.add_child(tween)
 	var wall_rect = wall.get_node("TextureRect")
-	wall_rect.rect_scale = Vector2(0,1)
-	tween.connect("tween_all_completed",tween,"queue_free")
-	tween.interpolate_property(wall_rect,"rect_scale",Vector2(0,1),Vector2(1,1),1.0,Tween.TRANS_SINE,Tween.EASE_OUT)
-	var duration = 1.5
-	tween.interpolate_property(Game,"fall_speed",100,Game.fall_speed+Game.fall_acceleration*duration,duration)
-	tween.start()
 	wall.global_position.y = 300
+	wall_rect.rect_scale = Vector2(0,1)
+	Game.fall_speed_multiplier = 0.1
+	var tween = wall.create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
+	tween.tween_property(wall_rect,"rect_scale",Vector2(1,1),1.0)

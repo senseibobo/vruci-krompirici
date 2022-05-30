@@ -12,6 +12,10 @@ var sauce: bool = false
 var default_strength: int = 50
 var old_position: Vector2
 
+onready var trail = $Trail
+onready var defaultparticles = $DefaultParticles
+onready var sauceparticles = $SauceParticles
+
 func set_posession(posession: int):
 	in_posession = posession
 
@@ -20,15 +24,17 @@ func _ready():
 	Game.potato = self
 
 func speedup(a: float):
-	$Trail.default_color = Color(2.0,1.43,0.58)
+	trail.default_color = Color(2.0,1.43,0.58)
 	speed*=a
 	
 func slowdown(a: float):
-	$Trail.default_color = Color.aqua*2.0
+	trail.default_color = Color.aqua*2.0
 	speed/=a
 
 func _physics_process(delta):
-	$Particles2D.emitting = in_posession == 0
+	var emitting = in_posession == 0
+	defaultparticles.emitting = emitting and not sauce
+	sauceparticles.emitting = emitting and sauce
 	old_position = global_position
 	if in_posession == 0:
 		rotation += dir*delta*20
@@ -54,10 +60,3 @@ func check_for_collision(wall):
 func bounce():
 	bounced = true
 	dir = -dir
-	
-func set_strength(strength: int):
-	var s = float(strength)
-	var ds = float(default_strength)
-	$Particles2D.modulate = Color(s/ds,ds/s,ds/s)
-	if $Particles2D.amount != strength:
-		$Particles2D.amount = strength

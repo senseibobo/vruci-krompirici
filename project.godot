@@ -9,16 +9,6 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Power",
-"class": "DeflectPower",
-"language": "GDScript",
-"path": "res://power/deflectpower.gd"
-}, {
-"base": "Power",
-"class": "DrillPower",
-"language": "GDScript",
-"path": "res://power/drillpower.gd"
-}, {
 "base": "Node",
 "class": "Power",
 "language": "GDScript",
@@ -40,8 +30,6 @@ _global_script_classes=[ {
 "path": "res://power/wallpower.gd"
 } ]
 _global_script_class_icons={
-"DeflectPower": "",
-"DrillPower": "",
 "Power": "",
 "SaucePower": "",
 "SlowPower": "",
@@ -50,9 +38,12 @@ _global_script_class_icons={
 
 [application]
 
-config/name="dole lopta"
+config/name="Vruci Krompirici"
 run/main_scene="res://menu/mainmenu.tscn"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="VKHE"
 config/icon="res://icon.png"
+config/windows_native_icon="res://icon.ico"
 
 [autoload]
 

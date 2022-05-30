@@ -8,6 +8,16 @@ const faces = [
 ]
 
 export var number: int = 1
+onready var sprite = $Sprite
+onready var heating_indicator = $CanvasLayer/Control/Heating
+onready var face = $Sprite/Face
+onready var smoke1 = $Sprite/Smoke
+onready var smoke2 = $Sprite/Smoke2
+onready var heat_bar = $CanvasLayer/Control/HeatBar
+onready var powers_container = $CanvasLayer/Control/Powers
+onready var animation_player = $AnimationPlayer
+onready var death_particles = $DeathParticles
+onready var catch_particles = $CatchParticles
 var powers: Array = [null,null,null]
 var selected_power_index: int
 var heat: float = 0.0
@@ -33,28 +43,26 @@ var old_heat: float
 func _process(delta):
 	if not Game.running: return
 	flash = move_toward(flash,0,delta*4.0)
-	$Sprite.scale.x = 0.08+sin(Game.time*5.0+number)/220.0
-	$Sprite.position.x = sin(Game.time*4.0+number)*10.0
-	$Sprite.scale.y = 0.08+cos(Game.time*5.0+number)/220.0
+	sprite.scale.x = 0.08+sin(Game.time*5.0+number)/220.0
+	sprite.position.x = sin(Game.time*4.0+number)*10.0
+	sprite.scale.y = 0.08+cos(Game.time*5.0+number)/220.0
 	throw_timer -= delta
 	if has_potato:
 		heat = clamp(heat + Game.heat_buildup/100.0*delta,0,1)
 		if heat >= 1:
 			Game.finish_game(3-number)
-		$CanvasLayer/Control/Heating.modulate = Color.crimson
-		$CanvasLayer/Control/Cooling.modulate = Color.gray
+		heating_indicator.modulate = Color.crimson
 	else:
-		$CanvasLayer/Control/Cooling.modulate = Color.aqua
-		$CanvasLayer/Control/Heating.modulate = Color.gray
+		heating_indicator.modulate = Color.gray
 		heat = clamp(heat - Game.heat_cooldown/100.0*delta,0,1)
-	$Sprite/Face.texture = faces[min(int(heat*3.0),2)]
-	$Sprite.self_modulate = Color.white.linear_interpolate(Color.red,int(heat*3.0)/3.0)
+	face.texture = faces[min(int(heat*3.0),2)]
+	sprite.self_modulate = Color.white.linear_interpolate(Color.red,int(heat*3.0)/3.0)
 	if old_heat < 0.66 and heat >= 0.66:
-		$Sprite/Smoke.emitting = true
-		$Sprite/Smoke2.emitting = true
+		smoke1.emitting = true
+		smoke2.emitting = true
 	elif heat < 0.66:
-		$Sprite/Smoke.emitting = false
-		$Sprite/Smoke2.emitting = false
+		smoke1.emitting = false
+		smoke2.emitting = false
 	adjust_size()
 	if Input.is_action_just_pressed("player"+str(number)+"_throw"):
 		throw_potato()
@@ -67,9 +75,9 @@ func f(x):
 	return max(fmod(-x,2)-1,0)
 
 func adjust_size():
-	$CanvasLayer/Control/ColorRect.color = Color(0.8+heat*2,flash,flash)
-	$CanvasLayer/Control/ColorRect.rect_position = Vector2(0,0)
-	$CanvasLayer/Control/ColorRect.rect_size = Vector2(clamp(heat*450,0,450),32)
+	heat_bar.color = Color(0.8+heat*2,flash,flash)
+	heat_bar.rect_position = Vector2(0,0)
+	heat_bar.rect_size = Vector2(clamp(heat*450,0,450),32)
 		
 
 func add_power(power):
@@ -94,7 +102,7 @@ func use_power(power_index):
 func update_power_texture():
 	for index in 3:
 		var t = powers[index].texture if powers[index] != null else null
-		$CanvasLayer/Control/Powers.get_node("Power"+str(index+1)).texture = t
+		powers_container.get_node("Power"+str(index+1)).texture = t
 
 func switch_power(d: int):
 	if powers.size() == 0: return
@@ -105,14 +113,12 @@ func throw_potato():
 	if not has_potato: return
 	if throw_timer > 0.0: return
 	Game.play_sound(preload("res://sfx/throw.wav"))
-	$AnimationPlayer.stop()
-	$AnimationPlayer.play("bacanje")
+	animation_player.stop()
+	animation_player.play("bacanje")
 	throw_timer = throw_cooldown
 	Game.potato.dir = 3-number*2
 	Game.potato.last_thrown = self
 	Game.potato.in_posession = 0
-	if not Game.potato.sauce:
-		Game.potato.set_strength(Game.potato.default_strength)
 	has_potato = false
 
 func catch_potato():
@@ -129,7 +135,7 @@ func catch_potato():
 		Game.shake_screen(50,0.3,800)
 	heat += Game.heat_punishment
 	flash = 1.1
-	$CatchParticles.emitting = true
+	catch_particles.emitting = true
 
 const death_textures = {
 	1: preload("res://player/death_player1.png"),
@@ -149,14 +155,14 @@ func death():
 		var roundover = preload("res://menu/roundover.tscn").instance()
 		Game.main_scene.add_child(roundover)
 	Game.shake_screen(100,2.0,900)
-	$DeathParticles.emitting = true
+	death_particles.emitting = true
 	Game.potato.queue_free()
 	yield(get_tree().create_timer(0.3,false),"timeout")
-	$Sprite/Face.queue_free()
-	$Sprite/Smoke.emitting = false
-	$Sprite/Smoke2.emitting = false
-	$Sprite.self_modulate = Color.white
-	$Sprite.texture = death_textures[number]
+	face.queue_free()
+	smoke1.emitting = false
+	smoke2.emitting = false
+	sprite.self_modulate = Color.white
+	sprite.texture = death_textures[number]
 
 func update_life_count():
 	for i in 4:

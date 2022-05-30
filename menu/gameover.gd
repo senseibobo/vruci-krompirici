@@ -1,5 +1,10 @@
 extends CanvasLayer
 
+export(NodePath) onready var title_label = get_node(title_label)
+export(NodePath) onready var restart_label = get_node(restart_label)
+export(NodePath) onready var quit_label = get_node(quit_label)
+export(NodePath) onready var cc = get_node(cc) 
+
 var restartable: bool = false
 var quittable: bool = false
 
@@ -21,25 +26,13 @@ func _unhandled_input(event):
 		get_tree().change_scene("res://menu/mainmenu.tscn")
 	
 func _ready():
-	$CenterContainer/VBoxContainer/Label.text = "GAME OVER\nPLAYER " + str(Game.last_player_win) + " WINS!"
-	$CenterContainer.modulate = Color(1.0,1.0,1.0,0.0)
-	$CenterContainer/VBoxContainer/Label2.modulate = Color(1,1,1,0)
-	$CenterContainer/VBoxContainer/Label3.modulate = Color(1,1,1,0)
-	var tween = Tween.new()
-	add_child(tween)
-	tween.interpolate_property(
-		$CenterContainer,"modulate",$CenterContainer.modulate, Color.white,2.0)
-	tween.start()
-	yield(tween,"tween_all_completed")
-	tween.interpolate_property(
-		$CenterContainer/VBoxContainer/Label2,
-		"modulate",Color(1,1,1,0),Color.white,1.0)
-	tween.start()
-	yield(tween,"tween_all_completed")
-	restartable = true
-	tween.interpolate_property(
-		$CenterContainer/VBoxContainer/Label3,
-		"modulate",Color(1,1,1,0),Color.white,1.0)
-	tween.start()
-	yield(tween,"tween_all_completed")
-	quittable = true
+	title_label.text = "GAME OVER\nPLAYER " + str(Game.last_player_win) + " WINS!"
+	cc.modulate = Color(1.0,1.0,1.0,0.0)
+	restart_label.modulate = Color(1,1,1,0)
+	quit_label.modulate = Color(1,1,1,0)
+	var tween = create_tween()
+	tween.tween_property(cc,"modulate", Color.white,2.0)
+	tween.tween_property(restart_label,"modulate",Color.white,1.0)
+	tween.tween_property(self,"restartable",true,0.0)
+	tween.tween_property(quit_label,"modulate",Color.white,1.0)
+	tween.tween_property(self,"quittable",true,0.0)

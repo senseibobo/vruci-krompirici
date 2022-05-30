@@ -64,6 +64,8 @@ __meta__ = {
 }
 wall_scene = ExtResource( 5 )
 power_scene = ExtResource( 6 )
+shader_rect = NodePath("CanvasLayer/ColorRect")
+background = NodePath("Bg")
 
 [node name="Bg" type="Sprite" parent="."]
 position = Vector2( 454, 2032 )

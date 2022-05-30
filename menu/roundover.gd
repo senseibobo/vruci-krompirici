@@ -26,15 +26,7 @@ func _ready():
 	$CenterContainer/VBoxContainer/Label2.text = "Press space to begin round " + str(Game.current_round)
 	$CenterContainer.modulate = Color(1.0,1.0,1.0,0.0)
 	$CenterContainer/VBoxContainer/Label2.modulate = Color(1,1,1,0)
-	var tween = Tween.new()
-	add_child(tween)
-	tween.interpolate_property(
-		$CenterContainer,"modulate",$CenterContainer.modulate, Color.white,2.0)
-	tween.start()
-	yield(tween,"tween_all_completed")
-	tween.interpolate_property(
-		$CenterContainer/VBoxContainer/Label2,
-		"modulate",Color(1,1,1,0),Color.white,1.0)
-	tween.start()
-	yield(tween,"tween_all_completed")
-	restartable = true
+	var tween = create_tween()
+	tween.tween_property($CenterContainer,"modulate", Color.white,2.0)
+	tween.tween_property($CenterContainer/VBoxContainer/Label2,"modulate",Color.white,1.0)
+	tween.tween_property(self,"restartable",true,0.0)
