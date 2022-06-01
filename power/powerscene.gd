@@ -19,7 +19,7 @@ func _process(delta):
 		var pos = global_position
 		var distance = sqrt(pow(ppos.x-pos.x,2)+pow(ppos.y-pos.y,2)/10)
 		if distance < 32 and not taken:
-			Game.play_sound(preload("res://sfx/powerup-repaired.wav"))
+			Game.play_sound(preload("res://sfx/powerup-repaired.ogg"))
 			Game.potato.last_thrown.add_power(power)
 			taken = true
 			queue_free()

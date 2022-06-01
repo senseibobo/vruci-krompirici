@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/muzika.ogg-a05c1bcf2ede423c9a6c29a9edaf89a8.oggstr"
+
+[deps]
+
+source_file="res://sfx/muzika.ogg"
+dest_files=[ "res://.import/muzika.ogg-a05c1bcf2ede423c9a6c29a9edaf89a8.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

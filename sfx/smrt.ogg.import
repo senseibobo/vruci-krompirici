@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/smrt.ogg-2ac823d803c904034a0424c9ee20409b.oggstr"
+
+[deps]
+
+source_file="res://sfx/smrt.ogg"
+dest_files=[ "res://.import/smrt.ogg-2ac823d803c904034a0424c9ee20409b.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

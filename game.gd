@@ -38,7 +38,7 @@ func get_fall_speed():
 func initialize():
 	if is_instance_valid(music_player): music_player.queue_free()
 	music_player = AudioStreamPlayer.new()
-	music_player.stream = preload("res://sfx/muzika.wav")
+	music_player.stream = preload("res://sfx/muzika.ogg")
 	add_child(music_player)
 	music_player.play()
 	deathmatch = false

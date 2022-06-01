@@ -1,12 +1,12 @@
 extends Node2D
 
 const textures = [
-	preload("res://wall/Fry_01@2x.png"),
-	preload("res://wall/Fry_02@2x.png"),
-	preload("res://wall/Fry_03@2x.png"),
-	preload("res://wall/Fry_04@2x.png"),
-	preload("res://wall/Fry_05@2x.png"),
-	preload("res://wall/Fry_06@2x.png")
+	preload("res://wall/fry1.png"),
+	preload("res://wall/fry2.png"),
+	preload("res://wall/fry3.png"),
+	preload("res://wall/fry4.png"),
+	preload("res://wall/fry5.png"),
+	preload("res://wall/fry6.png")
 ]
 
 var height: float

@@ -2,9 +2,9 @@ extends Node2D
 
 
 const faces = [
-	preload("res://player/Face_1@2x.png"),
-	preload("res://player/Face_2@2x.png"),
-	preload("res://player/Face_3@2x.png")
+	preload("res://player/face1.png"),
+	preload("res://player/face2.png"),
+	preload("res://player/face2.png")
 ]
 
 export var number: int = 1
@@ -30,9 +30,10 @@ func _ready():
 	Game.connect("game_started",self,"on_game_start")
 	if number == 2:
 		$CanvasLayer/Control.rect_scale.x = -1
-		$CanvasLayer/Control/PowerSlots/Key1.texture = preload("res://menu/Button_Arrow_Left.png")
-		$CanvasLayer/Control/PowerSlots/Key2.texture = preload("res://menu/Button_Arrow_Up.png")
-		$CanvasLayer/Control/PowerSlots/Key3.texture = preload("res://menu/Button_Arrow_Right.png")
+		for c in $CanvasLayer/Control/PowerSlots.get_children():
+			if c is Label:
+				c.get_node("Arrow").visible = true
+				c.text = ""
 	update_life_count()
 
 func on_game_start():
@@ -43,9 +44,9 @@ var old_heat: float
 func _process(delta):
 	if not Game.running: return
 	flash = move_toward(flash,0,delta*4.0)
-	sprite.scale.x = 0.08+sin(Game.time*5.0+number)/220.0
-	sprite.position.x = sin(Game.time*4.0+number)*10.0
-	sprite.scale.y = 0.08+cos(Game.time*5.0+number)/220.0
+	sprite.scale.x = 3.0+sin(Game.time*5.0+number)*0.1
+	sprite.scale.y = 3.0+cos(Game.time*5.0+number)*0.1
+	sprite.position.x = sin(Game.time*4.0+number)*5.0
 	throw_timer -= delta
 	if has_potato:
 		heat = clamp(heat + Game.heat_buildup/100.0*delta,0,1)
@@ -112,7 +113,7 @@ func switch_power(d: int):
 func throw_potato():
 	if not has_potato: return
 	if throw_timer > 0.0: return
-	Game.play_sound(preload("res://sfx/throw.wav"))
+	Game.play_sound(preload("res://sfx/throw.ogg"))
 	animation_player.stop()
 	animation_player.play("bacanje")
 	throw_timer = throw_cooldown
@@ -122,7 +123,7 @@ func throw_potato():
 	has_potato = false
 
 func catch_potato():
-	Game.play_sound(preload("res://sfx/hit.wav"))
+	Game.play_sound(preload("res://sfx/hit.ogg"))
 	has_potato = true
 	Game.potato.drill = false
 	Game.potato.in_posession = number
@@ -145,7 +146,7 @@ const death_textures = {
 func death():
 	Game.player_lives[number] -= 1
 	update_life_count()
-	Game.play_sound(preload("res://sfx/smrt.wav"))
+	Game.play_sound(preload("res://sfx/smrt.ogg"))
 	Game.current_round += 1
 	Game.last_player_win = 3-number
 	if Game.player_lives[number] == 0:
@@ -158,6 +159,7 @@ func death():
 	death_particles.emitting = true
 	Game.potato.queue_free()
 	yield(get_tree().create_timer(0.3,false),"timeout")
+	sprite.scale *= 1.3
 	face.queue_free()
 	smoke1.emitting = false
 	smoke2.emitting = false

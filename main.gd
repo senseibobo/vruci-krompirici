@@ -13,7 +13,7 @@ func _process(delta):
 	shader_rect.material.set_shader_param("c",time/40.0)
 	bg_y -= Game.fall_speed*delta*1.2
 	if bg_y < 0.243*7680:
-		bg_y += 1050
+		bg_y += 605
 	background.global_position.y = bg_y-7680*0.243
 	if time >= 10:
 		if fmod(time-delta,2.5) > fmod(time,2.5):

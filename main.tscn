@@ -3,10 +3,10 @@
 [ext_resource path="res://potato/potato.tscn" type="PackedScene" id=1]
 [ext_resource path="res://player/player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://main.gd" type="Script" id=3]
-[ext_resource path="res://player/Yam@2x.png" type="Texture" id=4]
+[ext_resource path="res://player/player2.png" type="Texture" id=4]
 [ext_resource path="res://wall/wall.tscn" type="PackedScene" id=5]
 [ext_resource path="res://power/power.tscn" type="PackedScene" id=6]
-[ext_resource path="res://BG@2x.png" type="Texture" id=8]
+[ext_resource path="res://background.png" type="Texture" id=8]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -68,12 +68,12 @@ shader_rect = NodePath("CanvasLayer/ColorRect")
 background = NodePath("Bg")
 
 [node name="Bg" type="Sprite" parent="."]
-position = Vector2( 454, 2032 )
-scale = Vector2( 0.243287, 0.243287 )
+position = Vector2( 450, 1000 )
+scale = Vector2( 8, 8 )
 z_index = -5
 texture = ExtResource( 8 )
 region_enabled = true
-region_rect = Rect2( 0, 0, 3840, 17280 )
+region_rect = Rect2( 0, 0, 137, 501.417 )
 
 [node name="Player1" parent="." instance=ExtResource( 2 )]
 position = Vector2( 200, 512 )
