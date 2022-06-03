@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://player/player.gd" type="Script" id=1]
 [ext_resource path="res://power/wallpower.png" type="Texture" id=2]
@@ -9,7 +9,6 @@
 [ext_resource path="res://wall/controlsframe.png" type="Texture" id=7]
 [ext_resource path="res://wall/up.png" type="Texture" id=8]
 [ext_resource path="res://menu/fire.png" type="Texture" id=9]
-[ext_resource path="res://menu/Snow.png" type="Texture" id=10]
 [ext_resource path="res://player/death.png" type="Texture" id=11]
 [ext_resource path="res://player/face1.png" type="Texture" id=12]
 [ext_resource path="res://wall/left.png" type="Texture" id=13]
@@ -319,16 +318,6 @@ margin_right = 382.0
 margin_bottom = 1010.0
 rect_min_size = Vector2( 60, 75 )
 texture = ExtResource( 9 )
-expand = true
-
-[node name="Cooling" type="TextureRect" parent="CanvasLayer/Control"]
-visible = false
-margin_left = 395.0
-margin_top = 947.0
-margin_right = 465.0
-margin_bottom = 1017.0
-rect_min_size = Vector2( 70, 70 )
-texture = ExtResource( 10 )
 expand = true
 
 [node name="ColorRect2" type="ColorRect" parent="CanvasLayer/Control"]

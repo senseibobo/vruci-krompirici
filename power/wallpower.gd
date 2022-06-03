@@ -6,7 +6,7 @@ func _init():
 	texture = preload("res://power/wall.png")
 
 func use(player_number: int):
-	var wall = Game.main_scene.create_wall(2)
+	var wall = Game.main.create_wall(2)
 	var wall_rect = wall.get_node("TextureRect")
 	wall.global_position.y = 300
 	wall_rect.rect_scale = Vector2(0,1)

@@ -11,7 +11,7 @@ var fall_acceleration: float
 var heat_buildup: float 
 var heat_cooldown: float
 var heat_punishment: float 
-var main_scene: Node2D
+var main: Node2D
 var camera: Camera2D
 var running: bool = false
 var win_last: int = 0
@@ -31,6 +31,7 @@ var time: float
 const speedup_time: float = 10.0
 
 var music_player: AudioStreamPlayer
+const main_scene: PackedScene = preload("res://main.tscn")
 
 func get_fall_speed():
 	return fall_speed * fall_speed_multiplier
@@ -49,8 +50,8 @@ func initialize():
 
 func start():
 	randomize()
-	if is_instance_valid(main_scene):
-		main_scene.time = 0
+	if is_instance_valid(main):
+		main.time = 0
 	time = 0.0
 	players = {}
 	running = true
@@ -113,7 +114,7 @@ func finish_game(winner_number: int):
 	emit_signal("game_over")
 	players[3-winner_number].death()
 	running = false
-	main_scene.set_process(false)
+	main.set_process(false)
 	var dm = true
 	for player in players:
 		if player_lives[player] != 1: dm = false
@@ -127,21 +128,3 @@ func screenshot():
 	im.create_from_image(tex)
 	ResourceSaver.save("user://skrinsot.png",im)
 
-func transition():
-	var cl = CanvasLayer.new()
-	cl.layer = 125
-	var cr = ColorRect.new()
-	add_child(cl)
-	cl.add_child(cr)
-	cr.anchor_right = 1.1
-	cr.anchor_left = -0.1
-	cr.anchor_top = -0.1
-	cr.anchor_bottom = 1.1
-	cr.margin_left = -100
-	cr.color = Color(0,0,0,0)
-	var tween = create_tween()
-	tween.tween_property(cr,"color",Color.black,0.3)
-	tween.tween_property(cr,"color",Color(0,0,0,0),0.3)
-	tween.tween_callback(cl,"queue_free")
-	yield(get_tree().create_timer(0.3,false),"timeout")
-	return

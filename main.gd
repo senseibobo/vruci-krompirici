@@ -31,8 +31,9 @@ func _process(delta):
 
 
 func _ready():
+	if Game.deathmatch: $CanvasLayer3/ColorRect.visible = true
 	Game.camera = $Camera2D
-	Game.main_scene = self
+	Game.main = self
 	action_timer = Timer.new()
 	add_child(action_timer)
 	action_timer.start(0.7)

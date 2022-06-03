@@ -151,10 +151,10 @@ func death():
 	Game.last_player_win = 3-number
 	if Game.player_lives[number] == 0:
 		var gameover = preload("res://menu/gameover.tscn").instance()
-		Game.main_scene.add_child(gameover)
+		Game.main.add_child(gameover)
 	else:
 		var roundover = preload("res://menu/roundover.tscn").instance()
-		Game.main_scene.add_child(roundover)
+		Game.main.add_child(roundover)
 	Game.shake_screen(100,2.0,900)
 	death_particles.emitting = true
 	Game.potato.queue_free()

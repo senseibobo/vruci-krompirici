@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://potato/potato.tscn" type="PackedScene" id=1]
 [ext_resource path="res://player/player.tscn" type="PackedScene" id=2]
@@ -7,6 +7,31 @@
 [ext_resource path="res://wall/wall.tscn" type="PackedScene" id=5]
 [ext_resource path="res://power/power.tscn" type="PackedScene" id=6]
 [ext_resource path="res://background.png" type="Texture" id=8]
+
+[sub_resource type="Shader" id=9]
+code = "shader_type canvas_item;
+
+uniform sampler2D noise;
+
+void fragment() {
+	COLOR = texture(SCREEN_TEXTURE,SCREEN_UV);
+	COLOR.r += 0.2*texture(noise,mod(SCREEN_UV*vec2(0.2,1.0)+0.8*TIME,vec2(1.0))).r*texture(noise,mod(SCREEN_UV-TIME*0.2,vec2(1.0))).r;
+	float x = UV.x-0.5;
+	float y = UV.y-0.5;
+	COLOR.r += length((UV-vec2(0.5)))/2.0;
+}"
+
+[sub_resource type="OpenSimplexNoise" id=11]
+
+[sub_resource type="NoiseTexture" id=12]
+width = 1280
+height = 720
+seamless = true
+noise = SubResource( 11 )
+
+[sub_resource type="ShaderMaterial" id=10]
+shader = SubResource( 9 )
+shader_param/noise = SubResource( 12 )
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -75,22 +100,17 @@ texture = ExtResource( 8 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 137, 501.417 )
 
-[node name="Player1" parent="." instance=ExtResource( 2 )]
-position = Vector2( 200, 512 )
-
-[node name="Player2" parent="." instance=ExtResource( 2 )]
-position = Vector2( 700, 512 )
-number = 2
-
-[node name="Sprite" parent="Player2" index="3"]
-texture = ExtResource( 4 )
-
-[node name="Potato" parent="." instance=ExtResource( 1 )]
-position = Vector2( 452, 512 )
-
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 452, 512 )
 current = true
+
+[node name="CanvasLayer3" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer3"]
+visible = false
+material = SubResource( 10 )
+anchor_right = 1.0
+anchor_bottom = 1.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -125,6 +145,19 @@ z_index = 54
 points = PoolVector2Array( 0, 0, 0, 1024 )
 width = 1.5
 default_color = Color( 0.486275, 0.486275, 0.486275, 0.203922 )
+
+[node name="Player1" parent="." instance=ExtResource( 2 )]
+position = Vector2( 200, 512 )
+
+[node name="Player2" parent="." instance=ExtResource( 2 )]
+position = Vector2( 700, 512 )
+number = 2
+
+[node name="Sprite" parent="Player2" index="3"]
+texture = ExtResource( 4 )
+
+[node name="Potato" parent="." instance=ExtResource( 1 )]
+position = Vector2( 452, 512 )
 
 [editable path="Player1"]
 [editable path="Player2"]

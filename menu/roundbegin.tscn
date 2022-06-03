@@ -25,3 +25,14 @@ margin_right = 365.0
 margin_bottom = 118.0
 custom_fonts/font = SubResource( 1 )
 text = "Round 1"
+align = 1
+
+[node name="Label2" type="Label" parent="CenterContainer/VBoxContainer"]
+visible = false
+self_modulate = Color( 0.898039, 0, 0, 1 )
+margin_top = 122.0
+margin_right = 625.0
+margin_bottom = 240.0
+custom_fonts/font = SubResource( 1 )
+text = "DEATHMATCH"
+align = 1

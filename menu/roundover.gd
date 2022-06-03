@@ -14,8 +14,9 @@ func _unhandled_input(event):
 			Game.initialize()
 		else:
 			Game.start()
-		yield(Game.transition(),"completed")
-		get_tree().reload_current_scene()
+		Transition.transition()
+		yield(Transition,"transitioned")
+		get_tree().change_scene_to(Game.main_scene)
 		var roundbegin = preload("res://menu/roundbegin.tscn").instance()
 		Game.add_child(roundbegin)
 	elif event.is_action_pressed("ui_cancel") and quittable:

@@ -39,8 +39,9 @@ func update_selection_arrows():
 
 
 func _on_play_pressed():
-	yield(Game.transition(),"completed")
-	get_tree().change_scene("res://main.tscn")
+	Transition.transition()
+	yield(Transition,"transitioned")
+	get_tree().change_scene_to(Game.main_scene)
 	Game.initialize()
 
 

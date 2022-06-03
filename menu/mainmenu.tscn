@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://menu/maintheme.tres" type="Theme" id=1]
 [ext_resource path="res://player/player1.png" type="Texture" id=2]
@@ -6,8 +6,6 @@
 [ext_resource path="res://menu/selectarrow.png" type="Texture" id=4]
 [ext_resource path="res://player/player2.png" type="Texture" id=5]
 [ext_resource path="res://menu/skrinsot.png" type="Texture" id=6]
-[ext_resource path="res://wall/Ctrl_Left@2x.png" type="Texture" id=7]
-[ext_resource path="res://wall/Ctrl_Right.png" type="Texture" id=8]
 [ext_resource path="res://player/face1.png" type="Texture" id=9]
 [ext_resource path="res://player/face2.png" type="Texture" id=10]
 [ext_resource path="res://wall/FreePixel.ttf" type="DynamicFontData" id=11]
@@ -319,17 +317,6 @@ margin_right = -8.0
 margin_bottom = -8.0
 texture = ExtResource( 15 )
 expand = true
-
-[node name="CtrlLeft2x" type="Sprite" parent="."]
-visible = false
-position = Vector2( 253, 532 )
-scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 7 )
-
-[node name="CtrlRight2x" type="Sprite" parent="."]
-visible = false
-position = Vector2( 1583, 541 )
-texture = ExtResource( 8 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 127
