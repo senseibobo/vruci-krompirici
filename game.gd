@@ -31,17 +31,13 @@ var time: float
 const speedup_time: float = 10.0
 
 var music_player: AudioStreamPlayer
-const main_scene: PackedScene = preload("res://main.tscn")
 
 func get_fall_speed():
 	return fall_speed * fall_speed_multiplier
 
 func initialize():
 	if is_instance_valid(music_player): music_player.queue_free()
-	music_player = AudioStreamPlayer.new()
-	music_player.stream = preload("res://sfx/muzika.ogg")
-	add_child(music_player)
-	music_player.play()
+	Music.play_music(preload("res://sfx/muzika.ogg"),0.0,0.05,0.0)
 	deathmatch = false
 	current_round = 1
 	last_player_win = 0

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/button.png-e6ddd405c0968c9fb68dca7b600a69a3.stex"
+path="res://.import/Empty_Powerup.png-8a77e6d72edd522ea76cec34a143905b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://menu/button.png"
-dest_files=[ "res://.import/button.png-e6ddd405c0968c9fb68dca7b600a69a3.stex" ]
+source_file="res://ui/Empty_Powerup.png"
+dest_files=[ "res://.import/Empty_Powerup.png-8a77e6d72edd522ea76cec34a143905b.stex" ]
 
 [params]
 

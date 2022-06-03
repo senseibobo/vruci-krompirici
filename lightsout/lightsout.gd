@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends ColorRect
 
 onready var lo = $LightsOut
 

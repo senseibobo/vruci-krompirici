@@ -3,6 +3,7 @@
 [ext_resource path="res://vfx/transition.gd" type="Script" id=1]
 
 [node name="Transition" type="CanvasLayer"]
+pause_mode = 2
 layer = 127
 script = ExtResource( 1 )
 

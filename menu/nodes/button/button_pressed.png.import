@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/skrinsot.png-40cc003dc44da82fc7ce3145e1460325.stex"
+path="res://.import/button_pressed.png-ef63fc5df198d16e9d4aaae469c93ca6.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://menu/skrinsot.png"
-dest_files=[ "res://.import/skrinsot.png-40cc003dc44da82fc7ce3145e1460325.stex" ]
+source_file="res://menu/nodes/button/button_pressed.png"
+dest_files=[ "res://.import/button_pressed.png-ef63fc5df198d16e9d4aaae469c93ca6.stex" ]
 
 [params]
 

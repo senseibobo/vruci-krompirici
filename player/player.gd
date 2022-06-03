@@ -150,10 +150,10 @@ func death():
 	Game.current_round += 1
 	Game.last_player_win = 3-number
 	if Game.player_lives[number] == 0:
-		var gameover = preload("res://menu/gameover.tscn").instance()
+		var gameover = Scenes.game_over.instance()
 		Game.main.add_child(gameover)
 	else:
-		var roundover = preload("res://menu/roundover.tscn").instance()
+		var roundover = Scenes.round_over.instance()
 		Game.main.add_child(roundover)
 	Game.shake_screen(100,2.0,900)
 	death_particles.emitting = true

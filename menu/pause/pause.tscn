@@ -1,7 +1,12 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://menu/pause.gd" type="Script" id=1]
+[ext_resource path="res://menu/pause/pause.gd" type="Script" id=1]
 [ext_resource path="res://menu/maintheme.tres" type="Theme" id=2]
+[ext_resource path="res://menu/Symtext.ttf" type="DynamicFontData" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 64
+font_data = ExtResource( 3 )
 
 [node name="Pause" type="CanvasLayer"]
 pause_mode = 2
@@ -19,6 +24,15 @@ color = Color( 0, 0, 0, 1 )
 [node name="Label" type="Label" parent="ColorRect"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+custom_fonts/font = SubResource( 1 )
 text = "Game is paused"
+align = 1
+valign = 1
+
+[node name="Label2" type="Label" parent="ColorRect/Label"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 118.0
+text = "Hold q to quit to main menu"
 align = 1
 valign = 1

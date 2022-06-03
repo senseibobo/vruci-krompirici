@@ -1,0 +1,68 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://menu/maintheme.tres" type="Theme" id=1]
+[ext_resource path="res://menu/selection.tscn" type="PackedScene" id=2]
+[ext_resource path="res://menu/settings/settings.gd" type="Script" id=3]
+
+[node name="Settings" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 3 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Selection" parent="." instance=ExtResource( 2 )]
+buttons_node = NodePath("../CenterContainer/Buttons")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Buttons" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 759.0
+margin_top = 400.0
+margin_right = 1061.0
+margin_bottom = 624.0
+
+[node name="Fullscreen" type="Button" parent="CenterContainer/Buttons"]
+margin_right = 302.0
+margin_bottom = 78.0
+size_flags_horizontal = 4
+text = "Fullscreen"
+
+[node name="Volume" type="HSlider" parent="CenterContainer/Buttons"]
+unique_name_in_owner = true
+margin_left = 1.0
+margin_top = 82.0
+margin_right = 301.0
+margin_bottom = 142.0
+rect_min_size = Vector2( 300, 60 )
+size_flags_horizontal = 4
+max_value = 1.0
+step = 0.05
+value = 0.5
+
+[node name="Label" type="Label" parent="CenterContainer/Buttons/Volume"]
+margin_left = -214.0
+margin_right = -25.0
+margin_bottom = 3.0
+size_flags_horizontal = 4
+text = "Volume"
+align = 1
+valign = 1
+
+[node name="Back" type="Button" parent="CenterContainer/Buttons"]
+margin_left = 84.0
+margin_top = 146.0
+margin_right = 218.0
+margin_bottom = 224.0
+size_flags_horizontal = 4
+text = "Back"
+
+[connection signal="pressed" from="CenterContainer/Buttons/Fullscreen" to="." method="_on_Fullscreen_pressed"]
+[connection signal="value_changed" from="CenterContainer/Buttons/Volume" to="." method="_on_Volume_value_changed"]
+[connection signal="pressed" from="CenterContainer/Buttons/Back" to="." method="_on_Back_pressed"]

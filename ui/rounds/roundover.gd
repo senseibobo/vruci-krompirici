@@ -16,11 +16,11 @@ func _unhandled_input(event):
 			Game.start()
 		Transition.transition()
 		yield(Transition,"transitioned")
-		get_tree().change_scene_to(Game.main_scene)
-		var roundbegin = preload("res://menu/roundbegin.tscn").instance()
+		get_tree().change_scene_to(Scenes.main)
+		var roundbegin = Scenes.round_begin.instance()
 		Game.add_child(roundbegin)
 	elif event.is_action_pressed("ui_cancel") and quittable:
-		get_tree().change_scene("res://menu/mainmenu.tscn")
+		get_tree().change_scene_to(Scenes.main_menu)
 	
 func _ready():
 	$CenterContainer/VBoxContainer/Label.text = "Player " + str(Game.last_player_win) + " wins!"

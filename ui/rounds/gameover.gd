@@ -20,7 +20,8 @@ func _unhandled_input(event):
 			Game.initialize()
 		else:
 			Game.start()
-		yield(Game.transition(),"completed")
+		Transition.transition()
+		yield(Transition,"transitioned")
 		get_tree().reload_current_scene()
 	elif event.is_action_pressed("ui_cancel") and quittable:
 		get_tree().change_scene("res://menu/mainmenu.tscn")

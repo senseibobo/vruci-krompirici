@@ -19,11 +19,11 @@ func _process(delta):
 		if fmod(time-delta,2.5) > fmod(time,2.5):
 			if randi()%100 <= 8:
 				if randi()%4 > 0 and not Game.deathmatch:
-					var srce = preload("res://srce/srce.tscn").instance()
-					add_child(srce)
-					srce.setup()
+					var heart = Scenes.heart.instance()
+					add_child(heart)
+					heart.setup()
 				elif not Game.lights_out:
-					var lightsout = preload("res://lightsout/lightsout.tscn").instance()
+					var lightsout = Scenes.lights_out.instance()
 					add_child(lightsout)
 				
 				
