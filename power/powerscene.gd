@@ -1,11 +1,13 @@
 extends Node2D
 
 const powers: Array = [WallPower,SlowPower,SaucePower]
+var power_index: int = 0
 var power: Power
 var taken: bool = false
 
 func setup():
-	power = powers[randi()%powers.size()].new() as Power
+	power_index = randi()%powers.size()
+	power = powers[power_index].new() as Power
 	global_position.x = 450
 	global_position.y = 1050
 	$TextureRect.texture = power.texture
@@ -20,6 +22,6 @@ func _process(delta):
 		var distance = sqrt(pow(ppos.x-pos.x,2)+pow(ppos.y-pos.y,2)/10)
 		if distance < 32 and not taken:
 			Game.play_sound(preload("res://sfx/powerup-repaired.ogg"))
-			Game.potato.last_thrown.add_power(power)
+			Game.potato.last_thrown.add_power(power_index)
 			taken = true
 			queue_free()
